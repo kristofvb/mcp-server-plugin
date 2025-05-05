@@ -13,7 +13,8 @@
         <li>Executing terminal commands</li>
         <li>Setting breakpoints</li>
         <li>Searching project files</li>
-        <li>And more</li>
+        <li>Finding implementations and subclasses</li>
+        <li>And much more</li>
     </ul>
     <p>
         To connect with Claude Desktop, you must install and register the MCP Proxy in Claude.
@@ -26,8 +27,23 @@
     <vendor>JetBrains</vendor>
 
     <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+
     <depends config-file="mcpServer-terminal.xml" optional="true">org.jetbrains.plugins.terminal</depends>
     <depends config-file="mcpServer-git.xml" optional="true">Git4Idea</depends>
+
+    <extensions defaultExtensionNs="com.intellij.mcpServer">
+        <mcpTool implementation="org.jetbrains.mcpserverplugin.mediaservices.FindFeedConsumers"/>
+        <mcpTool implementation="org.jetbrains.mcpserverplugin.mediaservices.FindMessageReceivers"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij.mcpServer">
+        <mcpTool implementation="org.jetbrains.mcpserverplugin.mediaservices.FindFeedConsumers"/>
+        <mcpTool implementation="org.jetbrains.mcpserverplugin.mediaservices.FindMessageSenders"/>
+        <mcpTool implementation="org.jetbrains.mcpserverplugin.mediaservices.FindMessageReceivers"/>
+        <mcpTool implementation="org.jetbrains.mcpserverplugin.mediaservices.FindGateways"/>
+    </extensions>
 
     <extensionPoints>
         <extensionPoint name="mcpTool"
@@ -40,7 +56,7 @@
         <notificationGroup id="MCPServerPlugin" displayType="BALLOON"/>
         <postStartupActivity implementation="org.jetbrains.mcpserverplugin.MCPServerStartupValidator"/>
         <applicationService serviceImplementation="org.jetbrains.mcpserverplugin.settings.PluginSettings"/>
-        <applicationConfigurable 
+        <applicationConfigurable
             instance="org.jetbrains.mcpserverplugin.settings.PluginSettingsConfigurable"
             id="org.jetbrains.mcpserverplugin.settings"
             displayName="MCP Plugin"
